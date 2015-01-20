@@ -66,3 +66,46 @@ serial_cfg_buf(unsigned short com)
 	 outb(SERIAL_FIFO_CMD_PORT(com), 0xC7);
 }
 
+void
+serial_cfg_modem(unsigned short com)
+{
+	/*
+	 * Modem control register:
+	 *
+	 *	| 7 | 6 | 5  | 4  | 3   | 2   | 1   | 0   |
+	 *	| r | r | af | lb | ao2 | ao1 | rts | dtr |
+	 *
+	 * Where:
+	 *	+ r => Reserved
+	 *	+ af => Enables autoflow control (not used)
+	 *	+ lb => Enables loopback mode. In loopback mode
+	 *		the controller disconnects the receiver
+	 *		serial input and redirects it to the
+	 *		transmitter. Used for debugging
+	 *	+ ao2 => Auxiliary output 2, used for receiving
+	 *		interrupts
+	 *	+ ao1 => Auxiliary output 1
+	 *	+ rts => Ready to transmit (RTS) bit
+	 *	+ dtr => Data terminal ready (DTR) bit
+	 *
+	 * The default value to use will be 0x03
+	 */
+	 outb(SERIAL_MODEM_CMD_PORT(com), 0x03);
+}
+
+void
+serial_cfg_port(const struct com_port *p)
+{
+	serial_cfg_baudrate(p->com, p->divisor);
+	serial_cfg_line(p->com);
+	serial_cfg_buf(p->com);
+	serial_cfg_modem(p->com);
+}
+
+unsigned char
+serial_is_tx_fifo_empty(unsigned short com)
+{
+	/* bit 5 of line status register indicates if queue is empty */
+	return inb(SERIAL_LINE_STATUS_PORT(com)) & 0x20;
+}
+

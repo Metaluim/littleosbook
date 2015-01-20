@@ -4,7 +4,7 @@ void
 kmain(void)
 {
 	char s[] = "Hello World ";
-	char s2[] = "cenas e coisas";
+	char s2[] = "I'm a little teapot";
 	int i;
 
 	fb_init();

@@ -9,3 +9,12 @@ outb:
 	mov dx, [esp + 4]
 	out dx, al
 	ret
+
+global inb
+; inb - send a byte from the given I/O port
+; stack: [esp + 4] the address of the I/O port
+;	[esp] return address
+inb:
+	mov dx, [esp + 4]
+	in al, dx
+	ret
