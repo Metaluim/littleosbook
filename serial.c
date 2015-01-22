@@ -2,7 +2,7 @@
 #include "io.h"
 #include "device.h"
 
-static struct device serial_dev =	{2, serial_write};
+static struct device serial_dev =	{1, serial_write};
 
 void
 serial_cfg_baudrate(unsigned short com, unsigned short divisor)
@@ -115,7 +115,7 @@ serial_is_tx_fifo_empty(unsigned short com)
 void
 serial_init(void)
 {
-	struct com_port com1 = { SERIAL_COM1_BASE, 2 }; 
+	struct com_port com1 = { SERIAL_COM1_BASE, 1 }; 
 
 	register_device(serial_dev);
 	serial_cfg_port(&com1);
@@ -131,7 +131,7 @@ serial_write(unsigned char *b, unsigned short len)
 	 * mechanism yet, we will spin until data is available on
 	 * a given COM port.
 	 */
-	while (serial_is_tx_fifo_empty(SERIAL_COM1_BASE));
+	while (!serial_is_tx_fifo_empty(SERIAL_COM1_BASE));
 
 	while (i < len)
 	{

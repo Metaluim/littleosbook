@@ -10,15 +10,21 @@ init(void)
 }
 
 void
-kmain(void)
+clear(void)
 {
 	int i;
 	unsigned char s[] = " ";
+	for (i = 0; i < FB_NUM_CELLS; ++i)
+		dev_write(0, s, 1);	
+}
+
+void
+kmain(void)
+{
+	unsigned char s[] = "abcdefghijklmnopqrstuvxwyz";
 
 	init();
 
-	for (i = 0; i < FB_NUM_CELLS; ++i)
-	{
-		dev_write(1, s, 1);
-	}
+	clear();
+	dev_write(1, s, sizeof(s));
 }

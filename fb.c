@@ -5,7 +5,7 @@
 static struct framebuffer *fb =		{0};
 static unsigned char curr_color =	FB_BLACK | FB_WHITE;
 static unsigned short cursor_idx =	0;
-struct device fbdev =			{1, fb_write};
+struct device fbdev =			{0, fb_write};
 
 void
 fb_write_cell(unsigned int i, char c, unsigned char fg, unsigned char bg)
