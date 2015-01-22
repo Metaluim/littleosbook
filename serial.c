@@ -1,5 +1,8 @@
 #include "serial.h"
 #include "io.h"
+#include "device.h"
+
+static struct device serial_dev =	{2, serial_write};
 
 void
 serial_cfg_baudrate(unsigned short com, unsigned short divisor)
@@ -107,5 +110,32 @@ serial_is_tx_fifo_empty(unsigned short com)
 {
 	/* bit 5 of line status register indicates if queue is empty */
 	return inb(SERIAL_LINE_STATUS_PORT(com)) & 0x20;
+}
+
+void
+serial_init(void)
+{
+	struct com_port com1 = { SERIAL_COM1_BASE, 2 }; 
+
+	register_device(serial_dev);
+	serial_cfg_port(&com1);
+}
+
+void
+serial_write(unsigned char *b, unsigned short len)
+{
+	int i = 0;
+
+	/*
+	 * TODO: Since there is no wait-queue or event dispatching
+	 * mechanism yet, we will spin until data is available on
+	 * a given COM port.
+	 */
+	while (serial_is_tx_fifo_empty(SERIAL_COM1_BASE));
+
+	while (i < len)
+	{
+		outb(SERIAL_COM1_BASE, b[i++]);
+	}
 }
 

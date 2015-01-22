@@ -1,8 +1,15 @@
 #include "device.h"
-#if 0
-void
-write(unsigned int fd, unsigned char *b, unsigned short len)
+
+int
+register_device(struct device d)
 {
+	add_dev(d);
+	return 0;	
 }
-#endif
+
+void
+dev_write(unsigned int devid, unsigned char *b, unsigned short len)
+{
+	lookup_dev(devid).write(b, len);
+}
 

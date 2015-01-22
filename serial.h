@@ -64,6 +64,9 @@ struct com_port
 };
 
 void
+serial_init(void);
+
+void
 serial_cfg_baudrate(unsigned short com, unsigned short divisor);
 void
 serial_cfg_line(unsigned short com);
@@ -76,5 +79,8 @@ serial_cfg_port(const struct com_port *p);
 
 unsigned char
 serial_is_tx_fifo_empty(unsigned short com);
+
+void
+serial_write(unsigned char *b, unsigned short len);
 
 #endif /* _SERIAL_H */

@@ -46,7 +46,7 @@ fb_init(void);
 void
 fb_change_color(unsigned char fg, unsigned char bg); 
 
-int
-write(char *buf, unsigned int len);
+void
+fb_write(unsigned char *buf, unsigned short len);
 
 #endif /* _FB_H */

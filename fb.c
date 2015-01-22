@@ -1,9 +1,11 @@
 #include "fb.h"
 #include "io.h"
+#include "device.h"
 
 static struct framebuffer *fb =		{0};
 static unsigned char curr_color =	FB_BLACK | FB_WHITE;
 static unsigned short cursor_idx =	0;
+struct device fbdev =			{1, fb_write};
 
 void
 fb_write_cell(unsigned int i, char c, unsigned char fg, unsigned char bg)
@@ -24,6 +26,7 @@ fb_move_cursor(unsigned char pos)
 void
 fb_init(void)
 {
+	register_device(fbdev);
 	fb = (struct framebuffer *) 0x000B8000;
 }
 
@@ -33,8 +36,8 @@ fb_change_color(unsigned char fg, unsigned char bg)
 	curr_color &= (fg | bg);
 }
 
-int
-write(char *buf, unsigned int len)
+void
+fb_write(unsigned char *buf, unsigned short len)
 {
 	unsigned int i;
 	unsigned char fg = curr_color & 0xF0;
@@ -45,7 +48,5 @@ write(char *buf, unsigned int len)
 		cursor_idx = (cursor_idx + 1) % FB_NUM_CELLS;
 	}
 	fb_move_cursor(cursor_idx);
-
-	return len;
 }
 

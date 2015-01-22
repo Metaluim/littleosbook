@@ -1,17 +1,23 @@
 #include "fb.h"
+#include "serial.h"
+#include "device.h"
+
+void
+init(void)
+{
+	fb_init();
+	serial_init();
+}
 
 void
 kmain(void)
 {
-	char s[] = "Hello World ";
-	char s2[] = "I'm a little teapot";
 	int i;
 
-	fb_init();
-	for (i = 0; i < 600; ++i)
-	{
-		write(s, sizeof(s));
-		write(s2, sizeof(s2));
-	}
+	init();
 
+	for (i = 0; i < FB_NUM_CELLS; ++i)
+	{
+		dev_write(2, (unsigned char *) " ", 1);
+	}
 }
