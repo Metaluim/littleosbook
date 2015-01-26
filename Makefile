@@ -1,7 +1,7 @@
 OBJECTS = loader.o io.o lgdt.o gdt.o device.o serial.o fb.o kmain.o
 CC = gcc
 CFLAGS = -I . -m32 -nostdlib -nostdinc -fno-builtin -fno-stack-protector \
-	-nostartfiles -nodefaultlibs -Wall -Wextra -Werror -Wno-unused-variable -Wno-unused-parameter -c
+	-nostartfiles -nodefaultlibs -Wall -Wextra -Werror -c
 LDFLAGS = -T link.ld -melf_i386
 AS = nasm
 ASFLAGS = -f elf
