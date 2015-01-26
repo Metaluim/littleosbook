@@ -1,10 +1,12 @@
 #include "fb.h"
 #include "serial.h"
 #include "device.h"
+#include "gdt.h"
 
 void
 init(void)
 {
+	init_gdt();
 	fb_init();
 	serial_init();
 }
