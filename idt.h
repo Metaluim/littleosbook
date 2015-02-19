@@ -33,4 +33,21 @@ struct stack_state
 	unsigned	user_ss;
 } __attribute__((packed));
 
+void
+init_idt(void);
+
+#if 0
+void
+load_idt_entry(
+#endif
+
+extern void
+load_idt(struct idt_entry *idt);
+
+void
+interrupt_handler(struct cpu_state cpu,
+	struct stack_state stack,
+	unsigned int irq);
+
+
 #endif /* _IDT_H */
